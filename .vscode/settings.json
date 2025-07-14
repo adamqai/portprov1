@@ -1,0 +1,10 @@
+{
+  "auto-run-command.commands": [
+    {
+      "command": "npm run dev",
+      "match": "v0-port-pro-v1-design-main",
+      "isShellCommand": true,
+      "runIn": "terminal"
+    }
+  ]
+} 
