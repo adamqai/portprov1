@@ -1,45 +1,46 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Ship, Activity, MapPin, TrendingUp } from 'lucide-react'
+import { useStats } from '@/hooks/use-stats'
 
 export function DashboardStats() {
-  // Removed: const { vessels, loading: vesselsLoading } = useVessels()
-  // Removed: const { activities, loading: activitiesLoading } = useActivities()
-  // Removed: const { berths, loading: berthsLoading } = useBerths()
+  const { vessels, operations, berths, loading, error } = useStats();
+
+  if (error) return <div>Failed to load stats</div>;
 
   const stats = [
     {
       title: "Total Vessels",
-      value: 0, // Placeholder, as useVessels is removed
-      change: "+2",
+      value: vessels?.length || 0,
+      change: "+2", // Placeholder
       trend: "up",
       icon: Ship,
-      loading: true // Placeholder, as useVessels is removed
+      loading: loading,
     },
     {
       title: "Active Operations",
-      value: 0, // Placeholder, as useActivities is removed
-      change: "-1",
+      value: operations?.filter((op: any) => op.status === 'in-progress').length || 0,
+      change: "-1", // Placeholder
       trend: "down",
       icon: Activity,
-      loading: true // Placeholder, as useActivities is removed
+      loading: loading,
     },
     {
       title: "Available Berths",
-      value: 0, // Placeholder, as useBerths is removed
-      change: "+1",
+      value: berths?.filter((b: any) => b.status === 'available').length || 0,
+      change: "+1", // Placeholder
       trend: "up",
       icon: MapPin,
-      loading: true // Placeholder, as useBerths is removed
+      loading: loading,
     },
     {
       title: "Today's Activities",
-      value: 0, // Placeholder, as useActivities is removed
-      change: "+5",
+      value: operations?.filter((op: any) => new Date(op.startTime).toDateString() === new Date().toDateString()).length || 0,
+      change: "+5", // Placeholder
       trend: "up",
       icon: TrendingUp,
-      loading: true // Placeholder, as useActivities is removed
+      loading: loading,
     }
   ]
 
@@ -69,4 +70,4 @@ export function DashboardStats() {
       ))}
     </div>
   )
-} 
+}
